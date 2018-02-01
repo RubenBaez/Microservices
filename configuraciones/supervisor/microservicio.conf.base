@@ -1,0 +1,6 @@
+[program:microservicio]
+command = /home/ruben/Documentos/MICROSERVICIOS/MicroservicioConHerramientas/gunicorn.bash
+;command = /home/ruben/Documentos/MICROSERVICIOS/MicroservicioConHerramientas/gunicorn app:app
+user=ruben
+;stdout_logfile = /home/ruben/Documentos/MICROSERVICIOS/MicroserviciosConHerramientas/gunicorn_super.log
+;redirect_stderr = true
