@@ -7,7 +7,13 @@ microservices developed in flask on an application server into docker with nginx
 * docker-compose
 
 # Run
+```
 $ docker-machine create <name-container>
+```
+```
 $ eval $(docker-machine env <name-container>)
+```
 
+```
 $ docker-compose --file docker-compose.yml up
+```
