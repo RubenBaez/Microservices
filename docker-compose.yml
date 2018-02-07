@@ -1,0 +1,98 @@
+######################
+## PYTHON CONTAINER ##
+######################
+python:
+    restart: always
+    build: ./servicio1/
+    expose:
+        - "8000"
+    links:
+        - postgres:postgres
+    volumes:
+        - /usr/src/app
+    #dockerfile: Dockerfile
+    #command: /usr/local/bin/gunicorn -w 2 -b :8000 app:app
+    command: gunicorn -w 2 -b :8000 app:app
+
+
+service:
+    restart: always
+    build: ./servicio2/
+    expose:
+        - "8001"
+    links:
+        - postgres:postgres
+    volumes:
+        - /usr/src/app
+    #dockerfile: Dockerfile
+    command: /usr/local/bin/gunicorn -w 2 -b :8001 secondService:app
+
+serviciotres:
+    restart: always
+    build: ./servicio3/
+    expose:
+        - "8002"
+    links:
+        - postgres:postgres
+    volumes:
+        - /usr/src/app
+    command: gunicorn -w 2 -b :8002 thirdService:app
+
+serviciocuatro:
+    restart: always
+    build: ./servicio4/
+    expose:
+        - "8003"
+    links:
+        - postgres:postgres
+    volumes:
+        - /usr/src/app
+    command: gunicorn -w 2 -b :8003 fourthService:app
+
+serviciosuma:
+    restart: always
+    build: ./serviciosuma/
+    expose:
+        - "8004"
+    links:
+        - postgres:postgres
+    volumes:
+        - /usr/src/app
+    command: gunicorn -w 2 -b :8004 sumaService:app
+
+servicioresta:
+     restart: always
+     build: ./servicioresta/
+     expose:
+         - "8005"
+     links:
+         - postgres:postgres
+     volumes:
+         - /usr/src/app
+     command: gunicorn -w 2 -b :8005 restaService:app
+     
+#####################
+## NGINX CONTAINER ##
+#####################
+nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+        - "80:80"
+    volumes:
+        - /www/static
+    links:
+        - python:python
+        - service:service
+        - serviciotres:serviciotres
+        - serviciocuatro:serviciocuatro
+        - serviciosuma:serviciosuma
+        - servicioresta:servicioresta
+####################
+## POSTGRES CONTAINER ##
+####################
+postgres:
+    restart: always
+    image: postgres
+    expose:
+        - "5432"
